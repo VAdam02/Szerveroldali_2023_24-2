@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HelloController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,5 @@ Route::get('/', function () {
 Route::get('/hello', function () {
     return 'Hello, World!';
 });
+
+Route::get('/hello2', [HelloController::class, 'some_method']);
