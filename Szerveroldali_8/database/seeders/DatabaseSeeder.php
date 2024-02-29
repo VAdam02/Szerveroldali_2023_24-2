@@ -31,31 +31,36 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        User::factory(10)->create();
-        for ($i = 0; $i < 10; $i++)
+        $users = collect();
+        $userCount = rand(10, 20);
+        for ($i = 0; $i < $userCount; $i++)
         {
-            User::factory()->create([
+            $users->push(User::factory()->create([
                 'name' => "name$i",
                 'email' => "email$i@szerveroldali.hu",
                 'age' => 20 + $i,
                 'password' => "password$i"
-            ]);
+            ]));
         }
 
         $categories = collect();
         $categoryCount = rand(10, 20);
-        for ($i = 0; $i < $categoryCount; $i++) {
-            $categories->push(Category::factory()->create([
-
-            ]));
+        for ($i = 0; $i < $categoryCount; $i++)
+        {
+            $categories->push(Category::factory()->create());
         }
 
         $posts = collect();
         $postCount = rand(30, 50);
         for ($i = 0; $i < $postCount; $i++) {
-            $posts->push(Post::factory()->create([
+            $post = Post::factory()->make();
+            $post->author()->associate($users->random());
+            $post->save();
 
-            ]));
+            $selectedCategories = $categories->random(rand(0, 2));
+            $post->categories()->attach($selectedCategories->pluck('id'));
+
+            $posts->push($post);
         }
     }
 }
