@@ -97,7 +97,7 @@ class PostController extends Controller
 
         if (!$post) { return response("Post $id not found", 404); }
 
-        $post->softDelete();
+        $post->delete();
 
         return redirect()->route('posts.index');
     }

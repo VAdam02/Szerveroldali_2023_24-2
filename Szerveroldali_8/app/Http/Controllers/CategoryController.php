@@ -89,7 +89,7 @@ class CategoryController extends Controller
 
         if (!$category) { return response("Category $id not ound", 404); }
 
-        $category->softDelete();
+        $category->delete();
 
         return redirect()->route('categories.index');
     }
