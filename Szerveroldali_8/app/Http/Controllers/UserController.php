@@ -28,8 +28,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //TODO
-        return response('User created', 201);
+        try {
+            $validated = $request->validate([
+                "name" => "required",
+                "email" => "required|unique:users",
+                "age" => "required",
+                "phone" => "nullable",
+                "password" => "required"
+            ]);
+
+            //return response($validated, 200);
+
+            $user = User::create($validated);
+
+            return redirect()->route('users.show', ['user' => $user->id]);
+        } catch (\Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 
     /**User create
@@ -54,8 +69,22 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //TODO
-        return response("User $id updated", 200);
+        $validated = $request->validate([
+            "name" => "required",
+            "email" => "required|unique:users",
+            "age" => "required",
+            "phone" => "nullable",
+            "password" => "required"
+        ]);
+
+        $user = User::findOrFail($id);
+        //VAGY
+        //$user = User::find($id);
+        //if (!$user) { return response("User $id not found", 404); }
+
+        $user->update($validated);
+
+        return redirect()->route('users.show', ['user' => $user->id]);
     }
 
     /**
@@ -63,7 +92,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //TODO
-        return response("User $id deleted", 200);
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users.index');
     }
 }
