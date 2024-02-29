@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Person;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Post;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,6 +40,22 @@ class DatabaseSeeder extends Seeder
                 'age' => 20 + $i,
                 'password' => "password$i"
             ]);
+        }
+
+        $categories = collect();
+        $categoryCount = rand(10, 20);
+        for ($i = 0; $i < $categoryCount; $i++) {
+            $categories->push(Category::factory()->create([
+
+            ]));
+        }
+
+        $posts = collect();
+        $postCount = rand(30, 50);
+        for ($i = 0; $i < $postCount; $i++) {
+            $posts->push(Post::factory()->create([
+
+            ]));
         }
     }
 }
