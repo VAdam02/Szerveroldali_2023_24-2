@@ -93,7 +93,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
-        $user->delete();
+        $user->softDelete();
 
         return redirect()->route('users.index');
     }
