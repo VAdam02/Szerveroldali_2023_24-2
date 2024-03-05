@@ -10,6 +10,9 @@
                 <p>{{ $post->content}}</p>
             </div>
         </a>
+        <div>
+            Posted by <a href="{{ route('users.show', $post->author->id) }}">{{ $post->author->name }}</a> on {{ $post->date }}
+        </div>
     </div>
     @endforeach
 </div>
