@@ -1,8 +1,12 @@
-<p>Hello world</p>
+<script src="https://cdn.tailwindcss.com"></script><script src="https://cdn.tailwindcss.com"></script>
 
-@foreach ($posts as $post)
-<a href="{{ route('posts.show', $post->id) }}">
-    <h2>{{ $post->title }}</h2>
-    <p>{{ $post->content}}</p>
+<div class="gap-4 flex flex-wrap">
+    @foreach ($posts as $post)
+    <div class="flex-auto w-96 p-4 shadow-md rounded-lg bg-gray-200">
+        <a href="{{ route('posts.show', $post->id) }}">
+            <h2>{{ $post->title }}</h2>
+            <p>{{ $post->content}}</p>
+        </a>
+    </div>
+    @endforeach
 </div>
-@endforeach
