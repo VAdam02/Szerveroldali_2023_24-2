@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             $post->author()->associate($users->random());
             $post->save();
 
-            $selectedCategories = $categories->random(rand(0, 2));
+            $selectedCategories = $categories->random(rand(0, 5));
             $post->categories()->attach($selectedCategories->pluck('id'));
 
             $posts->push($post);

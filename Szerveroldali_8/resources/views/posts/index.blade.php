@@ -13,6 +13,11 @@
         <div>
             Posted by <a href="{{ route('users.show', $post->author->id) }}">{{ $post->author->name }}</a> on {{ $post->date }}
         </div>
+        <div>
+            @foreach ($post->categories as $category)
+            <a href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a>
+            @endforeach
+        </div>
     </div>
     @endforeach
 </div>
