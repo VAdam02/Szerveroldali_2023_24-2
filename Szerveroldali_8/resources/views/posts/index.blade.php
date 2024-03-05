@@ -10,12 +10,12 @@
                 <p>{{ $post->content}}</p>
             </div>
         </a>
-        <div>
+        <div class="mt-2">
             Posted by <a href="{{ route('users.show', $post->author->id) }}">{{ $post->author->name }}</a> on {{ $post->date }}
         </div>
-        <div>
+        <div class="mt-2">
             @foreach ($post->categories as $category)
-            <a href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a>
+            <a href="{{ route('categories.show', $category->id) }}" class="inline-block px-2 py-1 rounded-full text-xs font-semibold text gray-900 mt-1 mx-1" style="background-color: {{ $category->color }}">{{ $category->name }}</a>
             @endforeach
         </div>
     </div>

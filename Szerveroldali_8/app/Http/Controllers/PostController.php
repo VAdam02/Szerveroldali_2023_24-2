@@ -15,6 +15,8 @@ class PostController extends Controller
         //return "List all of the posts<br>" . Post::where('public', true)->get()->toJson();
         $posts = Post::orderBy('date', 'desc')->with('author', 'categories')->where('public', true)->get();
         return view('posts.index', ['posts' => $posts]);
+
+        //User::with('posts', 'posts.categories')->get();
     }
 
     /**
