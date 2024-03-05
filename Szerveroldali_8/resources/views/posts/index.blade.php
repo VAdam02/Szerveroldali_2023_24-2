@@ -2,8 +2,8 @@
 
 <div class="gap-4 flex flex-wrap">
     @foreach ($posts as $post)
-    <div class="flex-auto w-96 p-4 shadow-md rounded-lg bg-gray-200">
-        <a href="{{ route('posts.show', $post->id) }}">
+    <div class="flex-auto w-96 p-4 shadow-md rounded-lg bg-gray-200 hover:scale-105 transform transition duration-300 ease-in-out">
+        <a href="{{ route('posts.show', $post->id) }}" class="hover:text-gray-500">
             <h2 class="truncate font-semibold text-lg mb-2">{{ $post->title }}</h2>
             <div class="h-24 overflow-hidden relative">
                 <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-gray-200 to-transparent"></div>
@@ -11,7 +11,7 @@
             </div>
         </a>
         <div class="mt-2">
-            Posted by <a href="{{ route('users.show', $post->author->id) }}">{{ $post->author->name }}</a> on {{ $post->date }}
+            Posted by <a href="{{ route('users.show', $post->author->id) }}" class="font-semibold text-blue-500 hover:text-blue-900 transition duration-1000 ease-in-out">{{ $post->author->name }}</a> on {{ $post->date }}
         </div>
         <div class="mt-2">
             @foreach ($post->categories as $category)
