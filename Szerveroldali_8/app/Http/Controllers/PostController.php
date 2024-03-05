@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -11,7 +12,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return "List all of the posts<br>" . Post::where('public', true)->get()->toJson();
+        //return "List all of the posts<br>" . Post::where('public', true)->get()->toJson();
+        $posts = Post::where('public', true)->get();
+        return view('posts.index', ['posts' => $posts]);
     }
 
     /**
@@ -27,7 +30,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'content' => 'required',
             'date' => 'nullable',
@@ -70,7 +73,7 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validate = $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'content' => 'required',
             'date' => 'nullable',

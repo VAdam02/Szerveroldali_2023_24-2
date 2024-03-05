@@ -3,6 +3,8 @@
 use App\Http\Controllers\HelloController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +40,5 @@ Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.de
 */
 
 Route::resource('users', UserController::class);
+Route::resource('posts', PostController::class);
+Route::resource('categories', CategoryController::class);
