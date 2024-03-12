@@ -7,5 +7,8 @@
     @include('posts.partials.card')
     @endforeach
 </div>
-
+<!-- Pagination Links -->
+<div class="my-3">
+    {{ $posts->links() }}
+</div>
 </x-posts-layout>

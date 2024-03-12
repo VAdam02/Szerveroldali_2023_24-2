@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -13,9 +14,11 @@ class PostController extends Controller
     public function index()
     {
         //return "List all of the posts<br>" . Post::where('public', true)->get()->toJson();
-        $posts = Post::orderBy('date', 'desc')->with('author', 'categories')->where('public', true)->get();
+        $posts = Post::orderBy('date', 'desc')->with('author', 'categories')->where('public', true)->paginate(9);
         return view('posts.index', ['posts' => $posts,
-                                    'highlightposts' => Post::limit(5)->with('author', 'categories')->get()]);
+                                    'highlightposts' => Post::limit(5)->with('author', 'categories')->get(),
+                                'topAuthors' => User::withCount('posts')->orderBy('posts_count', 'desc')->limit(5)->get()
+                            ]);
 
         //User::with('posts', 'posts.categories')->get();
     }
@@ -25,7 +28,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return "Create a new post";
+        //return "Create a new post";
+        return view('posts.create');
     }
 
     /**
