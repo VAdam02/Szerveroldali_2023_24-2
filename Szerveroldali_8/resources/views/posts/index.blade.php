@@ -1,8 +1,6 @@
 @vite(['resources/css/app.css','resources/js/app.js'])
 
-<x-general-layout title="Posts">
-
-@include('posts.partials.carouser')
+<x-posts-layout title="Posts" :highlightposts="$highlightposts">
 
 <div class="my-3 gap-10 flex flex-wrap">
     @foreach ($posts as $post)
@@ -10,4 +8,4 @@
     @endforeach
 </div>
 
-</x-general-layout>
+</x-posts-layout>
