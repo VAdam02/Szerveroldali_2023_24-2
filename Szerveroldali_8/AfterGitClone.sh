@@ -10,7 +10,9 @@ if [ ! -f .env ]; then
     cp .env.example .env
 fi
 
+composer update
 composer install
+npm install
 
 if [ $envFile ]; then
     php artisan key:generate
@@ -21,4 +23,6 @@ if [ ! -f d./database/atabase.sqlite ]; then
     php artisan migrate:fresh --seed
 fi
 
-php artisan serve
+#To host the project run both in two different terminals
+#npm run dev
+#php artisan serve
