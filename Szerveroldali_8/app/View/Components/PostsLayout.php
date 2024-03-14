@@ -11,7 +11,9 @@ class PostsLayout extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $title, public $highlightposts = null)
+    public function __construct(public $title,
+        public $authorsPostCount = null, public $categoriesPostCount = null,
+        public $highlightposts = null)
     {
         //
     }

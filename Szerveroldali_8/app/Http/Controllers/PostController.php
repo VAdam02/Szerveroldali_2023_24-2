@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -13,14 +14,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //return "List all of the posts<br>" . Post::where('public', true)->get()->toJson();
-        $posts = Post::orderBy('date', 'desc')->with('author', 'categories')->where('public', true)->paginate(9);
-        return view('posts.index', ['posts' => $posts,
-                                    'highlightposts' => Post::limit(5)->with('author', 'categories')->get(),
-                                'topAuthors' => User::withCount('posts')->orderBy('posts_count', 'desc')->limit(5)->get()
-                            ]);
-
-        //User::with('posts', 'posts.categories')->get();
+        return view('posts.index', ['posts' => Post::orderBy('date', 'desc')->where('public', true)->with('author', 'categories')->paginate(12),
+                                   'highlightposts' => Post::orderBy('date', 'desc')->where('public', true)->with('author', 'categories')->take(5)->get(),
+                                   'authorsPostCount' => User::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get(),
+                                   'categoriesPostCount' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get()]);
     }
 
     /**
@@ -28,8 +25,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //return "Create a new post";
-        return view('posts.create');
+        return view('posts.create', ['categories' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->get(),
+                                    'authorsPostCount' => User::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get(),
+                                    'categoriesPostCount' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get()]);
     }
 
     /**
