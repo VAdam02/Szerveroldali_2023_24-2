@@ -89,7 +89,10 @@ class PostController extends Controller
 
         if (!$post) { return response("Post $id not found", 404); }
 
-        return "Edit the post with id $id<br>" . $post->toJson();
+        return view('posts.edit', ['post' => $post,
+        'authorsPostCount' => User::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get(),
+        'categoriesPostCount' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get()]
+    );
     }
 
     /**
@@ -98,10 +101,18 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'title' => 'required',
+            'title' => 'required|min:3|max:255|unique:posts,title,' . $id,
             'content' => 'required',
-            'date' => 'nullable',
-            'public' => 'required'
+            'date' => 'nullable|date',
+            'public' => 'nullable'
+        ],
+        [
+            'title.required' => 'A címet kötelező megadni',
+            'title.min' => 'Tűl rövid',
+            'title.max' => 'Túl hosszú',
+            'title.unique' => 'Már létezik ilyen című bejegyzés',
+            'content.required' => 'A tartalmat kötelező megadni',
+            'public.nullable' => 'A publikálás formátuma nem megfelelő'
         ]);
 
         if (!$validated['date']) { $validated['date'] = now(); }
