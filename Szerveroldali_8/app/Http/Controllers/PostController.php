@@ -39,12 +39,20 @@ class PostController extends Controller
             'title' => 'required',
             'content' => 'required',
             'date' => 'nullable',
-            'public' => 'required'
+            'public' => 'nullable'
         ]);
 
-        if (!$validated['date']) { $validated['date'] = now(); }
+        if (!isset($validated['date'])) { $validated['date'] = now(); }
 
-        $post = Post::create($validated);
+        $validated['public'] = $request->has('public');
+        //$valudated['public'] = isset($request->public);
+
+        $post = Post::make($validated);
+
+        //TODO
+        $post->author()->associate(User::find(1));
+
+        $post->save();
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
