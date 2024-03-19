@@ -12,6 +12,15 @@
         <div class="mx-auto">
             <h1 class="text-3xl font-semibold">{{ $title }}</h1>
         </div>
+        @if (session('last_visited'))
+            <p>Legutoljára a {{ session('last_visited') }}. posztot nézted meg</p>
+        @endif
+        @if (session('success'))
+            <p>{{ session('success') }}</p>
+        @endif
+        @if (session('error'))
+            <p>{{ session('error') }}</p>
+        @endif
     </header>
 
     {{ $slot }}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -62,6 +63,8 @@ class PostController extends Controller
 
         $post->save();
 
+        Session::flash("success", "Post created successfully");
+
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
@@ -72,7 +75,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        if (!$post) { return response("Post $id not found", 404); }
+        if (!$post) {
+            Session::flash("error", "Post not found");
+            return redirect()->route('posts.index');
+        }
+
+        Session::flash('last_visited', $post->id);
 
         return view('posts.show', ['post' => $post,
         'highlightposts' => Post::orderBy('date', 'desc')->where('public', true)->with('author', 'categories')->take(5)->get(),
@@ -87,7 +95,10 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        if (!$post) { return response("Post $id not found", 404); }
+        if (!$post) {
+            Session::flash("error", "Post not found");
+            return redirect()->route('posts.index');
+        }
 
         return view('posts.edit', ['post' => $post,
         'authorsPostCount' => User::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get(),
@@ -119,9 +130,14 @@ class PostController extends Controller
 
         $post = Post::find($id);
 
-        if (!$post) { return response("Post $id not found", 404); }
+        if (!$post) {
+            Session::flash("error", "Post not found");
+            return redirect()->route('posts.index');
+        }
 
         $post->update($validated);
+
+        Session::flash("success", "Post edited successfully");
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -133,9 +149,14 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        if (!$post) { return response("Post $id not found", 404); }
+        if (!$post) {
+            Session::flash("error", "Post not found");
+            return redirect()->route('posts.index');
+        }
 
         $post->delete();
+
+        Session::flash("success", "Post deleted successfully");
 
         return redirect()->route('posts.index');
     }

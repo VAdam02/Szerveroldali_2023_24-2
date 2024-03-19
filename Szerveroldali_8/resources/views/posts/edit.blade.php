@@ -24,6 +24,6 @@
 
         <input type="datetime-local" name="date" id="date" value="{{ old('date', $post->date) }}"></br>
 
-        <button type="submit">Create</button>
+        <button type="submit">Edit</button>
     </form>
 </x-posts-layout>
