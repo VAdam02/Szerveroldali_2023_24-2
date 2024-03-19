@@ -38,8 +38,16 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|min:3|max:255|unique:posts',
             'content' => 'required',
-            'date' => 'nullable',
+            'date' => 'nullable|date',
             'public' => 'nullable'
+        ],
+        [
+            'title.required' => 'A címet kötelező megadni',
+            'title.min' => 'Tűl rövid',
+            'title.max' => 'Túl hosszú',
+            'title.unique' => 'Már létezik ilyen című bejegyzés',
+            'content.required' => 'A tartalmat kötelező megadni',
+            'public.nullable' => 'A publikálás formátuma nem megfelelő'
         ]);
 
         if (!isset($validated['date'])) { $validated['date'] = now(); }
@@ -66,7 +74,7 @@ class PostController extends Controller
 
         if (!$post) { return response("Post $id not found", 404); }
 
-        return "Show the post with id $id<br>" . $post->toJson();
+        return view('posts.show', ['post' => $post]);
     }
 
     /**
