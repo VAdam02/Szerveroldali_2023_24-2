@@ -2,6 +2,7 @@
 
 <x-posts-layout title="Post editor" :authorsPostCount="$authorsPostCount" :categoriesPostCount="$categoriesPostCount">
     <form action="{{ route("posts.store")}}" method="POST">
+        @csrf
         <label for="title">Title</label>
         <input type="text" name="title" id="title" value="{{ old("title") }}"></br>
         @error('title')
