@@ -37,18 +37,23 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|min:3|max:255|unique:posts',
-            'content' => 'required',
+            'title' => 'required|max:255|min:3|unique:posts',
+            'content' => 'required|max:10000|min:3',
             'date' => 'nullable|date',
-            'public' => 'nullable'
+            'public' => 'nullable',
+            'categories' => 'nullable|array|exists:categories,id'
         ],
         [
-            'title.required' => 'A címet kötelező megadni',
-            'title.min' => 'Tűl rövid',
-            'title.max' => 'Túl hosszú',
-            'title.unique' => 'Már létezik ilyen című bejegyzés',
-            'content.required' => 'A tartalmat kötelező megadni',
-            'public.nullable' => 'A publikálás formátuma nem megfelelő'
+            'title.required' => 'A cím megadása kötelező!',
+            'title.max' => 'A cím maximum 255 karakter hosszú lehet!',
+            'title.min' => 'A cím minimum 3 karakter hosszú kell legyen!',
+            'title.unique' => "A címnek egyedinek kell lennie!",
+            'content.required' => 'A tartalom megadása kötelező!',
+            'content.max' => 'A tartalom maximum 10000 karakter hosszú lehet!',
+            'content.min' => 'A tartalom minimum 3 karakter hosszú kell legyen!',
+            'date.date' => 'A dátum formátuma nem megfelelő!',
+            'categories.array' => 'A kategóriák formátuma nem megfelelő!',
+            'categories.exists' => 'A kategóriák közül legalább egy nem létezik!'
         ]);
 
         if (!isset($validated['date'])) { $validated['date'] = now(); }
@@ -101,9 +106,9 @@ class PostController extends Controller
         }
 
         return view('posts.edit', ['post' => $post,
-        'authorsPostCount' => User::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get(),
-        'categoriesPostCount' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get()]
-    );
+                                   'categories' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->get(),
+                                   'authorsPostCount' => User::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get(),
+                                   'categoriesPostCount' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get()]);
     }
 
     /**
@@ -112,18 +117,23 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'title' => 'required|min:3|max:255|unique:posts,title,' . $id,
-            'content' => 'required',
+            'title' => 'required|max:255|min:3|unique:posts,title,' . $id,
+            'content' => 'required|max:10000|min:3',
             'date' => 'nullable|date',
-            'public' => 'nullable'
+            'public' => 'nullable',
+            'categories' => 'nullable|array|exists:categories,id'
         ],
         [
-            'title.required' => 'A címet kötelező megadni',
-            'title.min' => 'Tűl rövid',
-            'title.max' => 'Túl hosszú',
-            'title.unique' => 'Már létezik ilyen című bejegyzés',
-            'content.required' => 'A tartalmat kötelező megadni',
-            'public.nullable' => 'A publikálás formátuma nem megfelelő'
+            'title.required' => 'A cím megadása kötelező!',
+            'title.max' => 'A cím maximum 255 karakter hosszú lehet!',
+            'title.min' => 'A cím minimum 3 karakter hosszú kell legyen!',
+            'title.unique' => "A címnek egyedinek kell lennie!",
+            'content.required' => 'A tartalom megadása kötelező!',
+            'content.max' => 'A tartalom maximum 10000 karakter hosszú lehet!',
+            'content.min' => 'A tartalom minimum 3 karakter hosszú kell legyen!',
+            'date.date' => 'A dátum formátuma nem megfelelő!',
+            'categories.array' => 'A kategóriák formátuma nem megfelelő!',
+            'categories.exists' => 'A kategóriák közül legalább egy nem létezik!'
         ]);
 
         if (!$validated['date']) { $validated['date'] = now(); }
