@@ -106,10 +106,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
+        /*
         if (Gate::denies('edit-post', $post)) {
             Session::flash("error", "You are not allowed to edit this post");
             return redirect()->route('posts.index');
         }
+        */
 
         if (!$post) {
             Session::flash("error", "Post not found");
@@ -151,10 +153,12 @@ class PostController extends Controller
 
         $post = Post::find($id);
 
+        /*
         if (Gate::denies('edit-post', $post)) {
             Session::flash("error", "You are not allowed to edit this post");
             return redirect()->route('posts.index');
         }
+        */
 
         if (!$post) {
             Session::flash("error", "Post not found");
