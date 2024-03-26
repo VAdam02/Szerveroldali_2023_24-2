@@ -40,7 +40,9 @@ Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.de
 */
 
 Route::resource('users', UserController::class);
-Route::resource('posts', PostController::class)->middleware('auth');
+//Route::resource('posts', PostController::class)->middleware('auth');
+Route::resource('posts', PostController::class)->except(['index', 'show'])->middleware('auth');
+Route::resource('posts', PostController::class)->only(['index', 'show']);
 Route::resource('categories', CategoryController::class);
 
 Auth::routes();
