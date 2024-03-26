@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('content');
             $table->dateTime('date');
             $table->boolean('public');
+            $table->string('imagename')->nullable();
             $table->foreignId('author_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();

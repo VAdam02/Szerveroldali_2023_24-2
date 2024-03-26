@@ -1,7 +1,7 @@
 <x-posts-layout title="Post editor" :authorsPostCount="$authorsPostCount" :categoriesPostCount="$categoriesPostCount">
     @vite(['resources/css/app.css','resources/js/app.js'])
 
-    <form action="{{ route('posts.store') }}" method="POST">
+    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="title" class="block text-sm font-semibold mb-2">Title</label>
@@ -29,6 +29,13 @@
             </div>
 
             @error('categories')
+            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="image" class="block text-sm font-semibold mb-2">Image</label>
+            <input type="file" name="image" id="image" class="w-full p-2 border border-gray-300 rounded">
+            @error('image')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>

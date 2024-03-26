@@ -15,7 +15,8 @@ class Post extends Model
         'title',
         'content',
         'date',
-        'public'
+        'public',
+        'imagename'
     ];
 
     public function author()
