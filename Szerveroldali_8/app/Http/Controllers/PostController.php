@@ -8,12 +8,13 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index']);
     }
 
     /**
@@ -32,6 +33,11 @@ class PostController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->cannot('create', Post::class)) {
+            Session::flash("error", "You are not allowed to create a post");
+            return redirect()->route('posts.index');
+        }
+
         return view('posts.create', ['categories' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->get(),
                                     'authorsPostCount' => User::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get(),
                                     'categoriesPostCount' => Category ::withCount(['posts' => function ($query) { $query->where('public', true); }])->orderBy('posts_count', 'desc')->limit(8)->get()]);
@@ -42,6 +48,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->cannot('create', Post::class)) {
+            Session::flash("error", "You are not allowed to create a post");
+            return redirect()->route('posts.index');
+        }
+
         $validated = $request->validate([
             'title' => 'required|max:255|min:3|unique:posts',
             'content' => 'required|max:10000|min:3',
@@ -85,6 +96,11 @@ class PostController extends Controller
     public function show(string $id)
     {
         $post = Post::find($id);
+
+        if (Auth::user()->cannot('viewAny', $post)) {
+            Session::flash("error", "You are not allowed to view the post");
+            return redirect()->route('posts.index');
+        }
 
         if (!$post) {
             Session::flash("error", "Post not found");
