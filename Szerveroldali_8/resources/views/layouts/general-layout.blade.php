@@ -10,7 +10,29 @@
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-gray-800 text-white p-5">
         <div class="mx-auto">
-            <h1 class="text-3xl font-semibold">{{ $title }}</h1>
+            <div class="flex justify-between items-center">
+                <div class="w-1/3 text-start">
+                    <a class="text-2xl mx-2" href="{{ route('posts.index') }}">Posts</a>
+                    <a class="text-2xl mx-2" href="{{ route('users.index') }}">Users</a>
+                    <a class="text-2xl mx-2" href="{{ route('categories.index') }}">Categories</a>
+                </div>
+                <div class="w-1/3 text-center">
+                    <a class="text-3xl font-semibold">{{ $title }}</a>
+                </div>
+                <div class="w-1/3 text-end">
+                    @auth
+                        <span>{{ Auth::user()->name }}</span>
+                        <form action="{{ route('logout') }}" method="post" class="inline">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                    @endauth
+                    @guest
+                        <a href="{{ route('login') }}" class="text-white">Login</a>
+                        <a href="{{ route('register') }}" class="text-white">Register</a>
+                    @endguest
+                </div>
+            </div>
         </div>
         @if (session('last_visited'))
             <p>Legutoljára a {{ session('last_visited') }}. posztot nézted meg</p>
