@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'age' => $this->faker->numberBetween(18, 100),
             'phone' => $this->faker->optional(0.3)->phoneNumber(),
+            'isadmin' => fake()->boolean(10),
             'remember_token' => Str::random(10),
         ];
     }
