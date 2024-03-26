@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -105,6 +106,11 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
+        if (Gate::denies('edit-post', $post)) {
+            Session::flash("error", "You are not allowed to edit this post");
+            return redirect()->route('posts.index');
+        }
+
         if (!$post) {
             Session::flash("error", "Post not found");
             return redirect()->route('posts.index');
@@ -144,6 +150,11 @@ class PostController extends Controller
         if (!$validated['date']) { $validated['date'] = now(); }
 
         $post = Post::find($id);
+
+        if (Gate::denies('edit-post', $post)) {
+            Session::flash("error", "You are not allowed to edit this post");
+            return redirect()->route('posts.index');
+        }
 
         if (!$post) {
             Session::flash("error", "Post not found");
