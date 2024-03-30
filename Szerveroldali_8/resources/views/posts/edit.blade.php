@@ -52,6 +52,19 @@
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
+        @if($post->imagename != null)
+        <div class="relative w-full h-48 mb-4">
+            <img src="{{ Storage::url('images/' . $post->imagename) }}" alt="{{ $post->title }}" class="w-full h-full object-cover rounded-lg">
+            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-gray-900 opacity-50 rounded-lg"></div>
+        </div>
+        @endif
+        <div class="mb-3">
+            <label for="image" class="block text-sm font-semibold mb-2">Image</label>
+            <input type="file" name="image" id="image" class="w-full p-2 border border-gray-300 rounded">
+            @error('image')
+            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
+        </div>
         <div class="mb-3">
             <input type="checkbox" name="public" id="public" value="1" {{ old('public', $post->public) ? 'checked' : '' }}>
             <label for="public" class="block text-sm font-semibold mb-2">Public</label>

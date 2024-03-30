@@ -226,6 +226,10 @@ class PostController extends Controller
             return redirect()->route('posts.index');
         }
 
+        if ($post->imagename) {
+            Storage::disk('public')->delete('images/' . $post->imagename);
+        }
+
         $post->delete();
 
         Session::flash("success", "Post deleted successfully");
