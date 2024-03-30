@@ -18,8 +18,8 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect()->route('posts.index');
+})->name('home');
 
 Route::get('/hello', function () {
     return 'Hello, World!';
@@ -48,4 +48,6 @@ Route::resource('categories', CategoryController::class);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', function () {
+    return redirect()->route('home');
+});
