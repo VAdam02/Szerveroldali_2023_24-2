@@ -1,4 +1,10 @@
 <div class="sm:w-96 w-full grow rounded-lg p-4 bg-gray-200 shadow-md hover:shadow-lg hover:scale-105 transform transition duration-300 ease-in-out">
+    @if($post->imagename != null)
+    <div class="relative w-full h-48 mb-4">
+        <img src="{{ Storage::url('images/' . $post->imagename) }}" alt="{{ $post->title }}" class="w-full h-full object-cover rounded-lg">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-gray-900 opacity-50 rounded-lg"></div>
+    </div>
+    @endif
     <a href="{{ route('posts.show', $post->id) }}" class="hover:text-gray-500">
         <h2 class="truncate font-semibold text-lg mb-2">{{ $post->title }}</h2>
         <div class="h-48 text-justify overflow-hidden relative">
