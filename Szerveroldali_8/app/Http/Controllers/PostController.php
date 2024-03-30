@@ -180,6 +180,21 @@ class PostController extends Controller
 
         $post = Post::find($id);
 
+        if ($post->imagename != null && $request -> hasFile('image')) {
+            Storage::disk('public')->delete('images/' . $post->imagename);
+        }
+
+        if ($request -> hasFile('image')){
+            $file = $request -> file('image');
+            $fname = $file -> hashName();
+            Storage::disk('public') -> put('images/' . $fname, $file -> get());
+            $validated['imagename'] = $fname;
+        }
+        else
+        {
+            $validated['imagename'] = $post->imagename;
+        }
+
         /*
         if (Gate::denies('edit-post', $post)) {
             Session::flash("error", "You are not allowed to edit this post");
