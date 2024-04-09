@@ -1,2 +1,0 @@
-file1_content
-content of file2
