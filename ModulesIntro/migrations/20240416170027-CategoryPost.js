@@ -25,6 +25,14 @@ module.exports = {
           model: "Posts",
           key: "id"
         }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
 
