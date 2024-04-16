@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db": "npx rimraf database/database.sqlite && npx sequelize db:migrate --debug && npx sequelize db:seed:all --debug"
   },
   "author": "VAdam",
   "license": "ISC",
