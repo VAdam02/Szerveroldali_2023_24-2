@@ -9,8 +9,33 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        type: Sequelize.STRING
+      /*
+      name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    age: DataTypes.INTEGER,
+    phone: DataTypes.STRING,
+    password: DataTypes.STRING,
+    isadmin: DataTypes.BOOLEAN
+    */
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING,
+      },
+      age: {
+        type: Sequelize.INTEGER
+      },
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      password: {
+        type: Sequelize.STRING,
+      },
+      isadmin: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
