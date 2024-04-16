@@ -9,6 +9,10 @@
   "author": "VAdam",
   "license": "ISC",
   "dependencies": {
-    "cowsay": "^1.6.0"
+    "@faker-js/faker": "^8.4.1",
+    "cowsay": "^1.6.0",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2",
+    "sqlite3": "^5.1.7"
   }
 }
