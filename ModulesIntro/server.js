@@ -79,6 +79,33 @@ fastify.put("/posts/:id", {
     reply.send(post)
 })
 
+fastify.patch("/posts/:id", {
+    schema: {
+        params: {
+            id: { type: "integer"}
+        },
+        body: {
+            type: "object",
+            properties: {
+                title: { type: "string" },
+                content: { type: "string" },
+                authorId: { type: "integer" },
+                categories: { type: "array", items: { type: "integer" } },
+                published: { type: "boolean"}
+            }
+        }
+    }
+}, async (request, reply) => {
+    const post = await Post.findByPk(request.params.id)
+    if (!post) {
+        reply.code(404).send({message: "Post not found"})
+    }
+
+    await post.update(request.body)
+    post.setCategories(request.body.categories)
+    reply.send(post)
+})
+
 fastify.listen({port: 3001}, (err, address) => {
     if (err) throw err
 })
