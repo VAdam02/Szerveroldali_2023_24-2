@@ -118,6 +118,21 @@ fastify.delete("/posts/:id", {
     //TODO
 })
 
+fastify.get("/posts/:id/categories", {
+    schema: {
+        params: {
+            id: { type: "integer" }
+        }
+    }
+}, async (request, reply) => {
+    const post = await Post.findByPk(request.params.id)
+    if (!post) {
+        reply.code(404).send({message: "Post not found"})
+    }
+
+    reply.send(await post.getCategories())
+})
+
 fastify.listen({port: 3001}, (err, address) => {
     if (err) throw err
 })
