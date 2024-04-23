@@ -15,6 +15,9 @@ module.exports = {
       content: {
         type: Sequelize.STRING
       },
+      date: {
+        type: Sequelize.DATE
+      },
       published: {
         type: Sequelize.BOOLEAN
       },

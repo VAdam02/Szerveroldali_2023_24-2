@@ -36,6 +36,7 @@ module.exports = {
       let post = await Post.create({
         title: faker.lorem.sentence(),
         content: faker.lorem.paragraphs({ min: 3, max: 6 }),
+        date: faker.date.recent(),
         published: Math.random() > 0.2,
         authorId: faker.helpers.arrayElement(users).id
       })
