@@ -28,17 +28,25 @@ fastify.get("/posts/:id", {
     reply.send(post)
 })
 
-fastify.post("/posts", async (request, reply) => {
-    console.log(request.body)
-
-    if (request.body.published == null) {
-        request.body.published = true
+fastify.post("/posts", {
+    schema: {
+        body: {
+            type: "object",
+            required: ["title", "content", "authorId"],
+            properties: {
+                title: { type: "string" },
+                content: { type: "string" },
+                authorId: { type: "integer" },
+                categories: { type: "array", default: [] },
+                published: { type: "boolean", default: true}
+            }
+        }
     }
-
+}, async (request, reply) => {
     request.body.date = new Date()
     const post = await Post.create(request.body)
 
-    post.setCategories(request.body.categoryId)
+    post.setCategories(request.body.categories)
 
     reply.code(201).send(post)
 })
