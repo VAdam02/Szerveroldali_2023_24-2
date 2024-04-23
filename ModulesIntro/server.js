@@ -106,6 +106,18 @@ fastify.patch("/posts/:id", {
     reply.send(post)
 })
 
+fastify.delete("/posts/:id", {
+    schema: {
+        params: {
+            id: { type: "integer" }
+        }
+    }
+}, async (request, reply) => {
+    const post = await Post.findByPk(request.params.id);
+    post.destroy();
+    //TODO
+})
+
 fastify.listen({port: 3001}, (err, address) => {
     if (err) throw err
 })
