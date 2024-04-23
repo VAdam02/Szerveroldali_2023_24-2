@@ -12,6 +12,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
     "cowsay": "^1.6.0",
+    "fastify": "^4.26.2",
     "rimraf": "^5.0.5",
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2",
