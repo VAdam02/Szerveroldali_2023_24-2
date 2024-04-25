@@ -115,7 +115,6 @@ fastify.delete("/posts/:id", {
 }, async (request, reply) => {
     const post = await Post.findByPk(request.params.id);
     post.destroy();
-    //TODO
 })
 
 fastify.get("/posts/:id/categories", {
