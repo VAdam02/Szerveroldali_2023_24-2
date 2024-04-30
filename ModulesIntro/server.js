@@ -3,6 +3,7 @@ const fastify = require('fastify') ({
 })
 
 const { User, Post, Category } = require("./models")
+const { Op } = require("sequelize")
 
 fastify.get("/hello", async (request, reply) => {
     reply.send("Hello world")
@@ -117,6 +118,46 @@ fastify.delete("/posts/:id", {
     post.destroy();
 })
 
+fastify.get("/unpublished", async (request, reply) => {
+    reply.send(await Post.findAll({ where: {published: false }}))
+})
+
+fastify.get("/published", async (request, reply) => {
+    reply.send(await Post.findAll({ where: {published: true }}))
+})
+
+fastify.get("/testaccount1", async (request, reply) => {
+    reply.send(await User.findAll({ where: {
+        id: { [Op.lt]: 10}
+    }}))
+})
+
+fastify.get("/testaccount2", async (request, reply) => {
+    reply.send(await User.findAll({
+        where: {
+            //id: { [Op.between]: [10, 20]} //10, 11, 12 ... 19, 20
+            id: { [Op.gt]: 5, [Op.lt]: 10} //6, 7, 8, 9
+        }
+    }))
+})
+
+fastify.get("/testaccount3", async (request, reply) => {
+    reply.send(await User.findAll({
+        where: {
+            id: {
+                [Op.or]: [
+                    { [Op.lt]: 5 },
+                    { [Op.gt]: 10}
+                ]
+            }
+        },
+        order: [
+            [["id", "DESC"]]
+        ],
+        limit: 5
+    }))
+})
+
 fastify.get("/posts/:id/categories", {
     schema: {
         params: {
@@ -131,6 +172,8 @@ fastify.get("/posts/:id/categories", {
 
     reply.send(await post.getCategories())
 })
+
+
 
 fastify.listen({port: 3001}, (err, address) => {
     if (err) throw err
