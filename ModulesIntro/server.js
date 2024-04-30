@@ -173,7 +173,12 @@ fastify.get("/posts/:id/categories", {
     reply.send(await post.getCategories())
 })
 
-
+fastify.get("/post-without-time", async (request, reply) => {
+    reply.send(await Post.findAll({
+        //attributes: ["id", "title", "content", "authorId"]
+        attributes: { exclude: ["createdAt", "updatedAt", "published", "date"]}
+    }))
+})
 
 fastify.listen({port: 3001}, (err, address) => {
     if (err) throw err
