@@ -180,6 +180,29 @@ fastify.get("/post-without-time", async (request, reply) => {
     }))
 })
 
+fastify.get("/posts-with-user", async (request, reply) => {
+    reply.send(await Post.findAll({ include: User}))
+})
+
+fastify.get("/posts-with-category-1", async (request, reply) => {
+    reply.send(await Post.findAll({ include: Category }))
+})
+
+fastify.get("/posts-with-category-2", async (request, reply) => {
+    reply.send(await Post.findAll({ include: { model: Category }}))
+})
+
+fastify.get("/posts-with-category-3", async (request, reply) => {
+    reply.send(await Post.findAll({ include: { model: Category, through: { attributes: [] } }}))
+})
+
+fastify.get("/posts-with-everything", async (request, reply) => {
+    reply.send(await Post.findAll({ include: [
+        User,
+        { model: Category, through: { attributes: [] }}
+    ]}))
+})
+
 fastify.listen({port: 3001}, (err, address) => {
     if (err) throw err
 })
