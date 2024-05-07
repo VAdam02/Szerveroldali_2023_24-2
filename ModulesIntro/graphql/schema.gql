@@ -6,6 +6,7 @@ type Query {
     isEven(num: Int!): Boolean!,
     categories: [Category!]!,
     posts: [Post!]!,
+    categoryById(id: ID): Category,
 }
 
 type Category {

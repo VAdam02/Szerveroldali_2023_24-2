@@ -13,6 +13,11 @@ module.exports = {
         },
         posts: async () => {
             return Post.findAll();
+        },
+        categoryById: async (_, {id}) => {
+            //return Category.findByPk(id);
+            if (id == null) return null;
+            return Category.findByPk(id);
         }
     },
 
