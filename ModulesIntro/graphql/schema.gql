@@ -7,6 +7,13 @@ type Query {
     categories: [Category!]!,
     posts: [Post!]!,
     categoryById(id: ID): Category,
+    statistics: statistics
+}
+
+type statistics {
+    postCount: Int!,
+    userCount: Int!,
+    postPerUser: Float!
 }
 
 type Category {

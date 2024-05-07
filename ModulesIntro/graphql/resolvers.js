@@ -18,6 +18,13 @@ module.exports = {
             //return Category.findByPk(id);
             if (id == null) return null;
             return Category.findByPk(id);
+        },
+        statistics: async () => {
+            return {
+                userCount: await User.count(),
+                postCount: await Post.count(),
+                postPerUser: await Post.count() / await User.count()
+            };
         }
     },
 
