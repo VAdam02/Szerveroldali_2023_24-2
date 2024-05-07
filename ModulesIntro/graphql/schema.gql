@@ -10,6 +10,16 @@ type Query {
     statistics: statistics
 }
 
+type Mutation {
+    createCategory1(name: String!, color: String!): Category!,
+    createCategory2(input: CategoryInput!): Category!,
+}
+
+input CategoryInput {
+    name: String!,
+    color: String!
+}
+
 type statistics {
     postCount: Int!,
     userCount: Int!,
@@ -43,3 +53,29 @@ type User {
     createdAt: DateTime!,
     updatedAt: DateTime!,
 }
+
+#query {
+#  statistics {
+#    userCount,
+#    postCount,
+#    postPerUser
+#  }
+#  categoryById(id: 1) {
+#    name
+#  }
+#  #hello,
+#  isEven(num: 5),
+#  hello2(name: "XY"),
+#  categories {
+#    dummy,
+#    id,
+#    name,
+#    color,
+#    posts {
+#      id,
+#      categories {
+#      	id
+#    	}
+#    },
+#  },
+#}

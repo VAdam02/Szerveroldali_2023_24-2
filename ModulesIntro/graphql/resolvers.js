@@ -28,6 +28,15 @@ module.exports = {
         }
     },
 
+    Mutation: {
+        createCategory1: async (_, {name, color}) => {
+            return Category.create({name, color});
+        },
+        createCategory2: async (_, { input }) => {
+            return Category.create(input);
+        }
+    },
+
     Category: {
         dummy: async () => {
             return "dummy"
