@@ -24,6 +24,7 @@ fastify.get("/posts/:id", {
 
     if (!post) {
         reply.code(404).send({message: "Post not found"})
+        return;
     }
 
     reply.send(post)
@@ -73,6 +74,7 @@ fastify.put("/posts/:id", {
     const post = await Post.findByPk(request.params.id)
     if (!post) {
         reply.code(404).send({message: "Post not found"})
+        return;
     }
 
     await post.update(request.body)
@@ -100,6 +102,7 @@ fastify.patch("/posts/:id", {
     const post = await Post.findByPk(request.params.id)
     if (!post) {
         reply.code(404).send({message: "Post not found"})
+        return;
     }
 
     await post.update(request.body)
@@ -168,6 +171,7 @@ fastify.get("/posts/:id/categories", {
     const post = await Post.findByPk(request.params.id)
     if (!post) {
         reply.code(404).send({message: "Post not found"})
+        return;
     }
 
     reply.send(await post.getCategories())
@@ -201,6 +205,55 @@ fastify.get("/posts-with-everything", async (request, reply) => {
         User,
         { model: Category, through: { attributes: [] }}
     ]}))
+})
+
+fastify.register(require("@fastify/jwt"), {
+    secret: "nagyonTitkosJelszo"
+})
+
+fastify.decorate("auth", async (request, reply) => {
+    try {
+        await request.jwtVerify();
+    } catch (err) {
+        reply.send(err);
+    }
+})
+
+fastify.post("/login", {
+    schema: {
+        body: {
+            type: "object",
+            required: ['email', 'password'],
+            properties: {
+                email: { type: "string" },
+                password: { type: "string" }
+            }
+        }
+    }
+}, async (request, reply) => {
+    const user = await User.findOne({ where: { email: request.body.email }})
+    if (!user) {
+        reply.code(404).send({message: "No such user"})
+        return;
+    }
+
+    if (user.password != request.body.password) {
+        reply.code(401).send({message: "Wrong password"})
+        return;
+    }
+
+    reply.send({ token: fastify.jwt.sign(user.toJSON())}) //itt megadod, hogy tárolja el a user-t
+})
+
+fastify.get("/protected", { onRequest: [fastify.auth] }, async (request, reply) => {
+    const user = await User.findByPk(request.user.id); //itt lekéred a user-t
+
+    if (!user) {
+        reply.code(404).send({message: "No such user"})
+        return;
+    }
+
+    reply.send(await user.getPosts())
 })
 
 fastify.listen({port: 3001}, (err, address) => {
