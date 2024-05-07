@@ -15,6 +15,8 @@
     "@fastify/jwt": "^8.0.0",
     "cowsay": "^1.6.0",
     "fastify": "^4.26.2",
+    "graphql-scalars": "^1.23.0",
+    "mercurius": "^14.1.0",
     "nodemon": "^3.1.0",
     "rimraf": "^5.0.5",
     "sequelize": "^6.37.3",
