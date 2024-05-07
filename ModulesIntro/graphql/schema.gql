@@ -13,6 +13,16 @@ type Query {
 type Mutation {
     createCategory1(name: String!, color: String!): Category!,
     createCategory2(input: CategoryInput!): Category!,
+    createPost(input: PostInput!): Post!,
+}
+
+input PostInput {
+    title: String!,
+    content: String!,
+    date: DateTime,
+    published: Boolean,
+    authorId: ID!
+    categories: [ID!]!
 }
 
 input CategoryInput {

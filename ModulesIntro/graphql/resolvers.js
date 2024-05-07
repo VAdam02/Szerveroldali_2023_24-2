@@ -34,6 +34,17 @@ module.exports = {
         },
         createCategory2: async (_, { input }) => {
             return Category.create(input);
+        },
+        createPost: async (_, {input} ) => {
+            if (input.date == null) {
+                input.date = new Date();
+            }
+            if (input.published == null) {
+                input.published = true;
+            }
+            const newPost = await Post.create(input);
+            await newPost.setCategories(input.categories);
+            return newPost;
         }
     },
 
