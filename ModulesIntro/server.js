@@ -256,6 +256,19 @@ fastify.get("/protected", { onRequest: [fastify.auth] }, async (request, reply) 
     reply.send(await user.getPosts())
 })
 
+const mercurius = require("mercurius")
+
+const { readFileSync } = require("fs")
+const schema = readFileSync("./graphql/schema.gql").toString()
+const resolvers = require("./graphql/resolvers")
+
+fastify.register(mercurius, {
+    schema,
+    resolvers,
+    graphiql: true,
+    path: "/graphql"
+})
+
 fastify.listen({port: 3001}, (err, address) => {
     if (err) throw err
 })
