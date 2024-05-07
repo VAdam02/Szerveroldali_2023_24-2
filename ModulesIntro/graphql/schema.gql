@@ -1,5 +1,37 @@
+scalar DateTime
+
 type Query {
     hello: String!,
     hello2(name: String!): String!,
-    isEven(num: Int!): Boolean!
+    isEven(num: Int!): Boolean!,
+    categories: [Category!]!,
+    posts: [Post!]!,
+}
+
+type Category {
+    dummy: String!
+    id: ID!,
+    name: String!,
+    color: String!,
+    posts: [Post!]!
+}
+
+type Post {
+    id: ID!,
+    title: String!,
+    content: String!,
+    published: Boolean!
+    authorId: ID!,
+    createdAt: DateTime!,
+    updatedAt: DateTime!,
+    categories: [Category!]!,
+    user: User!
+}
+
+type User {
+    id: ID!,
+    name: String!,
+    email: String!,
+    createdAt: DateTime!,
+    updatedAt: DateTime!,
 }

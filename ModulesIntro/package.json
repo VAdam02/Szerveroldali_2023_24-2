@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db": "npx rimraf database/database.sqlite && npx sequelize db:migrate --debug && npx sequelize db:seed:all --debug",
-    "dev": "npx nodemon -e js,mjs,json,gpl server.js"
+    "dev": "npx nodemon -e js,mjs,json,gql server.js"
   },
   "author": "VAdam",
   "license": "ISC",
