@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Group.init({
     name: DataTypes.STRING,
-    workingCommunity: DateType.STRING
+    workingCommunity: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Group',
