@@ -1,9 +1,34 @@
 type Query {
-    # Elemi példa:
-    helloWorld: String
-
-    # Példa paraméterezésre:
-    helloName(name: String!): String
-
-    # TODO: Készítsd el a schema hiányzó részeit
+#    randomGroupName(length: Int!): [String!]!
+    classes: [String!]!
+#    getGroupRelatedStudentsFromClass(semester: Int!, classLetter: String!): [String!]!
+#    findGroupBySubstring(substrings: [String!]!): [String!]!
+#    getGroupsWithStudentCount(min: Int!): [String!]!
+#    getClassesFromWorkCommunity(workCommunity: String!): [String!]!
+#    getGroupsOnlySemesters(semesters: [Int!]!): [String!]!
+#    getSameSemesterStudent(studentName: String!): [Student!]!
+#    getMostFrequentClass: String!
+#    mostPopularGroup: String!
 }
+#
+#type Mutation {
+#    setStudent(email: String!, groupId: ID!, status: StatusInput!): Boolean!
+#    cancelJoinRequest(groupId: ID!): Boolean!
+#}
+#
+#enum StatusInput {
+#    PENDING
+#    ACCEPTED
+#    REJECTED
+#    REMOVE
+#}
+#
+#type Student {
+#    id: ID!
+#    name: String!
+#    email: String!
+#    semester: Int!
+#    classLetter: String!
+#    createdAt: DateTime!
+#    updatedAt: DateTime!
+#}
