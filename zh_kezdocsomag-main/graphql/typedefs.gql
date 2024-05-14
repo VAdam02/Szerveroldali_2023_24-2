@@ -1,7 +1,7 @@
 type Query {
 #    randomGroupName(length: Int!): [String!]!
     classes: [String!]!
-#    getGroupRelatedStudentsFromClass(semester: Int!, classLetter: String!): [String!]!
+    getGroupRelatedStudentsFromClass(semester: Int!, classLetter: String!): [String!]!
 #    findGroupBySubstring(substrings: [String!]!): [String!]!
 #    getGroupsWithStudentCount(min: Int!): [String!]!
 #    getClassesFromWorkCommunity(workCommunity: String!): [String!]!
