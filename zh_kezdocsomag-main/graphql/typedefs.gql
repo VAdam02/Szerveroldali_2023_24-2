@@ -1,5 +1,5 @@
 type Query {
-#    randomGroupName(length: Int!): [String!]!
+    randomGroupName(length: Int!): [String!]!
     classes: [String!]!
     getGroupRelatedStudentsFromClass(semester: Int!, classLetter: String!): [String!]!
 #    findGroupBySubstring(substrings: [String!]!): [String!]!

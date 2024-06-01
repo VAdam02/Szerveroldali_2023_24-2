@@ -29,10 +29,55 @@ fastify.decorate("auth", async function (request, reply) {
     }
 });
 
-/*
-Létrehoz egy új diákot a kérés törzsében (body) megadott adatokkal. A végpont hitelesített, tehát csak bejelentkezett felhasználók használhatják. Ezen felül jogosultságkezelést is kell végezni: a végpontot csak egy tanár hívhatja meg. Ha a JWT token payload-jában megadott e-mail címmel nem létezik tanár, akkor 403 FORBIDDEN státuszkódot kell visszaadni.
-*/
+//3. feladat
+fastify.post("/integers", {
+    schema: {
+        body: {
+            type: "array",
+        }
+    }
+}, async (request, reply) => {
+    const { body } = request;
+    const processedIntegers = body.filter(e => Number.isInteger(e)).map(e => e % 2 === 0 ? e : e * 2);
+    const notIntegers = body.filter(e => !Number.isInteger(e));
+    const randomInteger = processedIntegers.length > 0 ? processedIntegers[Math.floor(Math.random() * processedIntegers.length)] : null;
 
+    if (processedIntegers.length === 0) {
+        return { processedIntegers, notIntegers, randomInteger, random: null };
+    }
+    else {
+        return { processedIntegers, notIntegers, randomInteger };
+    }
+});
+
+//4. feladat
+fastify.get("/groups", async (request, reply) => {
+    const groups = await Group.findAll({
+        include: [
+            {
+                model: Teacher,
+                attributes: ["name"],
+                through: {
+                    attributes: []
+                }
+            },
+            {
+                model: Student,
+                attributes: ["name"],
+                through: {
+                    attributes: [],
+                    where: {
+                        status: "ACCEPTED"
+                    }
+                }
+            }
+        ]
+    });
+
+    return groups;
+});
+
+//5. feladat
 fastify.post("/teacher/create-student", {
     onRequest: [fastify.auth],
     schema: {
@@ -49,21 +94,21 @@ fastify.post("/teacher/create-student", {
 }, async (request, reply) => {
     const teacher = await Teacher.findOne({ where: { email: request.user.email }});
     if (!teacher) {
-        return reply.code(403);
+        return reply.code(403).send();
     }
 
     const { name, email, classData } = request.body;
 
-    let classLetter = classData.slice(-1);
-    let semester = classData.split(".")[0];
+    const semester = classData.split(".")[0];
+    const classLetter = classData.split(".")[1].toUpperCase();
 
     if (await Student.findOne({ where: { email }})) {
-        return reply.code(409);
+        return reply.code(409).send();
     }
 
     const student = await Student.create({ name, email, semester, classLetter});
 
-    return reply.code(201).send(student); //TODO valamiért ez a sor túl lassú
+    return reply.code(201).send(student);
 })
 
 // GraphQL regisztrálása (mercurius modul)

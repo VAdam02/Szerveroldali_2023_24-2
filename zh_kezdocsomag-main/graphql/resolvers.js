@@ -13,11 +13,26 @@ module.exports = {
         // Példa paraméterezésre:
         //helloName: (_, { name }) => `Hello ${name}!`,
 
+        //10. feladat
+        randomGroupName: async (_, { length }) => {
+            const groups = await Group.findAll();
+            const randomGroups = [];
+            while (length > 0 && groups.length > 0) {
+                const index = Math.floor(Math.random() * groups.length);
+                randomGroups.push(groups[index].name);
+                groups.splice(index, 1);
+                length--;
+            }
+            return randomGroups;
+        },
+
+        //11. feladat
         classes: async () => {
             const students = await Student.findAll();
             return students.sort((a, b) => a.semester - b.semester || !a.classLetter.localeCompare(b.classLetter)).map(student => `${student.semester}. ${student.classLetter}`);
         },
 
+        //12. feladat
         getGroupRelatedStudentsFromClass: async (_, { semester, classLetter }) => {
             classLetter = classLetter.length == 1 ? classLetter.toUpperCase() : null;
             semester = parseInt(semester);

@@ -11,7 +11,8 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM('PENDING', 'ACCEPTED', 'REJECTED'),
-        allowNull: false
+        allowNull: false,
+        defaultValue: 'PENDING'
       },
       GroupId: {
         type: Sequelize.INTEGER,
